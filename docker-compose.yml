@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  api:
+    build: .
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app
+    networks:
+      - test_projects
+    depends_on:
+      - db
+
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: clean_serverless_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+    command:
+      [
+        mysqld,
+        --default-authentication-plugin=mysql_native_password,
+        --character-set-server=utf8mb4,
+        --collation-server=utf8mb4_unicode_ci,
+        --bind-address=0.0.0.0,
+      ]
+    ports:
+      - "3306:3306"
+    volumes:
+      - clean-serverless-db:/var/lib/mysql
+    networks:
+      - test_projects
+
+volumes:
+  clean-serverless-db:
+
+networks:
+  test_projects:
+    external: true
