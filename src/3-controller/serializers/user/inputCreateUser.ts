@@ -13,7 +13,7 @@ export class InputCreateUser extends AbstractSerializer<IInputCreateUserDto> {
   email: string;
 
   @MinLength(8)
-  @MaxLength(20)
+  @MaxLength(50)
   full_name: string;
 
   @IsString()
