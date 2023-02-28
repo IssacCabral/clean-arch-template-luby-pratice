@@ -22,12 +22,4 @@ export class RoleEntity extends AbstractEntity<IRoleEntity> {
 
     return right(role);
   }
-
-  static update(input: Partial<IRoleEntity>): Right<void, RoleEntity> {
-    const role = new RoleEntity({
-      ...input,
-      updated_at: new Date(),
-    } as IRoleEntity);
-    return right(role);
-  }
 }
