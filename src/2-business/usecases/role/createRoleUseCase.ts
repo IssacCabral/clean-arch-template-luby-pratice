@@ -21,8 +21,18 @@ export class CreateRoleUseCase
   ) {}
 
   async exec(input: IInputCreateRoleDto): Promise<IOutputCreateRoleDto> {
-    const roleEntity = RoleEntity.create(input);
     try {
+      const roleEntity = RoleEntity.create(input);
+
+      const roleAlreadyExists = await this.roleRepository.findBy(
+        "profile",
+        input.profile
+      );
+
+      if (roleAlreadyExists) {
+        return left(RolesErrors.roleAlreadyExists());
+      }
+
       const roleResult = await this.roleRepository.create(
         roleEntity.value.export()
       );

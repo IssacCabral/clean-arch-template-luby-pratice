@@ -32,19 +32,19 @@ export class CreateUserUseCase
   ) {}
 
   async exec(input: IInputCreateUserDto): Promise<IOutputCreateUserDto> {
+    const hashPassword = await this.hasherService.create(input.password);
+
+    const createUser = UserEntity.create({
+      ...input,
+      password: hashPassword,
+    });
+
+    const user = {
+      ...createUser.value.export(),
+      uuid: this.uniqueIdentifierService.create(),
+    };
+
     try {
-      const hashPassword = await this.hasherService.create(input.password);
-
-      const createUser = UserEntity.create({
-        ...input,
-        password: hashPassword,
-      });
-
-      const user = {
-        ...createUser.value.export(),
-        uuid: this.uniqueIdentifierService.create(),
-      };
-
       const userEntity = await this.userRepository.create(user, input.role_id);
       return right(userEntity);
     } catch (error) {
