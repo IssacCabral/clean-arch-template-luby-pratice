@@ -15,11 +15,13 @@ provider:
           Action:
             - dynamodb:GetItem
             - dynamodb:PutItem
-          Resource: "arn:aws:dynamodb:${self.provider.region}:*:*"
+          Resource: "*"
 
 custom:
-  rolesTable: RolesTable
-  usersTable: UsersTable
+  dbReadCapacityUnits: 1
+  dbWriteCapacityUnits: 1
+  rolesTable: Roles
+  usersTable: Users
   functionsDir: src/4-framework/functions
   serverless-offline:
     httpPort: 3333
@@ -36,33 +38,29 @@ resources:
     RolesTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self.provider.custom.rolesTable}
+        TableName: Users
         AttributeDefinitions:
           - AttributeName: id
-            AttributeType: I
-          - AttributeName: profile
-            AttributeType: S
-          - AttributeName: created_at
-          - AttributeName: updated_at
+            AttributeType: N
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: ${self:custom.dbReadCapacityUnits}
+          WriteCapacityUnits: ${self:custom.dbWriteCapacityUnits}
     UsersTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self.provider.custom.usersTable}
+        TableName: Roles
         AttributeDefinitions:
           - AttributeName: id
-            AttributeType: I
-          - AttributeName: uuid
-            AttributeType: S
-          - AttributeName: role_id
-            AttributeType: I
-          - AttributeName: full_name
-            AttributeType: S
-          - AttributeName: email
-            AttributeType: S
-          - AttributeName: password
-            AttributeTYpe: S
-          - AttributeName: created_at
-          - AttributeName: updated_at
+            AttributeType: N
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: ${self:custom.dbReadCapacityUnits}
+          WriteCapacityUnits: ${self:custom.dbWriteCapacityUnits}
 
 plugins:
   - serverless-webpack
