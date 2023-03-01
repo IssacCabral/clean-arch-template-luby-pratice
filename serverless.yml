@@ -27,3 +27,4 @@ plugins:
 
 functions:
   - ${file(${self:custom.functionsDir}/roles/roles.yml)}
+  - ${file(${self:custom.functionsDir}/users/users.yml)}
