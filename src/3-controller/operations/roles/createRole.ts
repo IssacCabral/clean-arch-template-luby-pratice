@@ -16,6 +16,7 @@ export class CreateRoleOperator extends AbstractOperator<
   }
 
   async run(input: InputCreateRole): Promise<IOutputCreateRoleDto> {
+    console.log(input);
     this.exec(input);
 
     const roleResult = await this.createRoleUseCase.exec({
