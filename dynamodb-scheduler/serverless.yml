@@ -1,0 +1,73 @@
+service: clean-arch-sls
+
+frameworkVersion: "3"
+
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+          Resource: "arn:aws:dynamodb:${self.provider.region}:*:*"
+
+custom:
+  rolesTable: RolesTable
+  usersTable: UsersTable
+  functionsDir: src/4-framework/functions
+  serverless-offline:
+    httpPort: 3333
+  webpack:
+    webpackConfig: "webpack.config.js"
+    includeModules:
+      forceInclude:
+        # force include of your db drivers here
+        - mysql2
+    excludeFiles: tests/**
+
+resources:
+  Resources:
+    RolesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self.provider.custom.rolesTable}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: I
+          - AttributeName: profile
+            AttributeType: S
+          - AttributeName: created_at
+          - AttributeName: updated_at
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self.provider.custom.usersTable}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: I
+          - AttributeName: uuid
+            AttributeType: S
+          - AttributeName: role_id
+            AttributeType: I
+          - AttributeName: full_name
+            AttributeType: S
+          - AttributeName: email
+            AttributeType: S
+          - AttributeName: password
+            AttributeTYpe: S
+          - AttributeName: created_at
+          - AttributeName: updated_at
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+
+functions:
+  - ${file(${self:custom.functionsDir}/roles/roles.yml)}
+  - ${file(${self:custom.functionsDir}/users/users.yml)}
