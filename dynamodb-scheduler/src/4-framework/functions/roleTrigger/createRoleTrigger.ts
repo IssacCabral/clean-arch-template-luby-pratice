@@ -1,6 +1,6 @@
 const roleTrigger = async (event: any) => {
   try {
-    console.log(event);
+    console.log(JSON.stringify(event));
 
     return {
       statusCode: 200,

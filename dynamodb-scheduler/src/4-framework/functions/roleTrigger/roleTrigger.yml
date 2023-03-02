@@ -4,7 +4,7 @@ roleTrigger:
     - stream:
         type: dynamodb
         filterPatterns:
-          - eventName: [MODIFY]
+          - eventName: [INSERT]
         arn:
           Fn::GetAtt:
             - RolesTable
