@@ -15,7 +15,9 @@ provider:
           Action:
             - dynamodb:GetItem
             - dynamodb:PutItem
-          Resource: "*"
+            - dynamodb:ListStreams # permissão para ouvir esse evento
+            - dynamodb:DescribeStream
+          Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/RolesTable"
 
 custom:
   dbReadCapacityUnits: 1
@@ -31,36 +33,25 @@ custom:
       forceInclude:
         # force include of your db drivers here
         - mysql2
-    excludeFiles: tests/**
+    excludeFiles: src/4-framework/repositories/ids.json
 
 resources:
   Resources:
     RolesTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: Users
+        TableName: RolesTable
         AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: N
+          - AttributeName: profile
+            AttributeType: S
         KeySchema:
-          - AttributeName: id
+          - AttributeName: profile
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: ${self:custom.dbReadCapacityUnits}
           WriteCapacityUnits: ${self:custom.dbWriteCapacityUnits}
-    UsersTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: Roles
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: N
-        KeySchema:
-          - AttributeName: id
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: ${self:custom.dbReadCapacityUnits}
-          WriteCapacityUnits: ${self:custom.dbWriteCapacityUnits}
+        StreamSpecification:
+          StreamViewType: NEW_IMAGE
 
 plugins:
   - serverless-webpack
@@ -68,4 +59,4 @@ plugins:
 
 functions:
   - ${file(${self:custom.functionsDir}/roles/roles.yml)}
-  - ${file(${self:custom.functionsDir}/users/users.yml)}
+  - ${file(${self:custom.functionsDir}/roleTrigger/roleTrigger.yml)}

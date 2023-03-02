@@ -37,6 +37,7 @@ export class CreateRoleUseCase
         roleEntity.value.export()
       );
 
+      console.log("TO AQUIIIIIIIIIIIII");
       return right(roleResult);
     } catch (error) {
       return left(RolesErrors.roleFailedToCreate());

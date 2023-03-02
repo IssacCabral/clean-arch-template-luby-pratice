@@ -10,17 +10,56 @@ import {
   IRoleEntity,
 } from "@domain/entities/roleEntity";
 import { injectable } from "inversify";
+import { DynamoDB } from "aws-sdk";
+import fs from "fs";
+import ids from "../../../ids.json";
 
 @injectable()
 export class RoleRepository implements IRoleRepository {
-  create(input: InputCreateRoleEntity): Promise<IRoleEntity> {
-    throw new Error("Method not implemented.");
+  async create(input: InputCreateRoleEntity): Promise<IRoleEntity> {
+    const dynamoDbSvc = new DynamoDB.DocumentClient();
+    const currentDate = new Date();
+    const roleId = ++ids.roleId;
+
+    const params = {
+      TableName: "RolesTable",
+      Item: {
+        ...input,
+        id: roleId,
+        created_at: currentDate.toISOString(),
+        updated_at: currentDate.toISOString(),
+      },
+    };
+
+    const roleToReturn = {
+      ...params.Item,
+      created_at: currentDate,
+      updated_at: currentDate,
+    };
+
+    await dynamoDbSvc.put(params).promise();
+
+    const idData = JSON.stringify({ ...ids, roleId });
+    fs.writeFile("../../../ids.json", idData, () => {});
+
+    return roleToReturn;
   }
-  findBy(
+
+  async findBy(
     key: "id" | "profile",
     value: string | number
   ): Promise<void | IRoleEntity> {
-    throw new Error("Method not implemented.");
+    const dynamoDbSvc = new DynamoDB.DocumentClient();
+    const role = await dynamoDbSvc
+      .get({
+        TableName: "RolesTable",
+        Key: {
+          [key]: value,
+        },
+      })
+      .promise();
+
+    return role.Item as IRoleEntity;
   }
   findAll(input: IInputFindAllRole): Promise<void | IFindAllPaginated> {
     throw new Error("Method not implemented.");

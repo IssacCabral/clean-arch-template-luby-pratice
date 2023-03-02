@@ -1,0 +1,11 @@
+roleTrigger:
+  handler: ${self:custom.functionsDir}/roleTrigger/createRoleTrigger.handler
+  events:
+    - stream:
+        type: dynamodb
+        filterPatterns:
+          - eventName: [MODIFY]
+        arn:
+          Fn::GetAtt:
+            - RolesTable
+            - StreamArn
