@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "Count" ALTER COLUMN "sum" SET DEFAULT 0;

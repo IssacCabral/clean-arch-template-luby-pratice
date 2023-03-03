@@ -1,5 +1,5 @@
 {
-  "name": "filas_com_redis",
+  "name": "filas_com_reds",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,8 +13,11 @@
   "dependencies": {
     "@prisma/client": "^4.11.0",
     "@types/express": "^4.17.17",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "prisma": "^4.11.0",
     "tsx": "^3.12.3"
+  },
+  "devDependencies": {
+    "prisma": "^4.11.0"
   }
 }

@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  api:
+    build: .
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app
+    networks:
+      - filas_com_redes_network
+    depends_on:
+      - db
+
+networks:
+  filas_com_redes_network:
+    external: true
