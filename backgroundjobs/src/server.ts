@@ -1,5 +1,5 @@
 import express from "express";
-import { UsersController } from "./usersController";
+import { UsersController } from "./app/controllers/usersController";
 
 const app = express();
 

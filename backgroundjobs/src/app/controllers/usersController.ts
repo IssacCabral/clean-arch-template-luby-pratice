@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import { configs } from "../../configs/env";
+import Mailer from "../lib/mail";
 
 export class UsersController {
   async handle(request: Request, response: Response) {
