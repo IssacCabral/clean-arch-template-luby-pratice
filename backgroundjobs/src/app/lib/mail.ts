@@ -1,14 +1,17 @@
+import env from "dotenv";
+
+env.config();
+
 import nodemailer from "nodemailer";
-import { configs } from "../../configs/env";
 
 const mailerTransporter = nodemailer.createTransport({
-  host: configs.mailHost,
-  port: Number(configs.mailPort),
+  host: process.env.SMTP_HOST,
+  port: Number(process.env.SMTP_PORT),
   secure: false,
   auth: {
-    user: configs.mailUserName,
-    pass: configs.mailPassword,
+    user: process.env.SMTP_USERNAME,
+    pass: process.env.SMTP_PASSWORD,
   },
 });
 
-export default mailerTransporter;
+export { mailerTransporter };

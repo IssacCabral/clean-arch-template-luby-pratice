@@ -1,16 +1,17 @@
-import Mailer from "../lib/mail";
-import { configs } from "../../configs/env";
+import { mailerTransporter } from "../lib/mail";
 
 export default {
   key: "RegistrationMail",
-  async handle({ data }) {
-    const { user } = data;
+  async handle(redis: any) {
+    const { data } = redis;
 
-    await Mailer.sendMail({
-      from: `Qeue test <${configs.mailFrom}>`,
-      to: `${user.name} <${user.email}>`,
+    await mailerTransporter.sendMail({
+      from: `Qeue test <${process.env.SMTP_FROM}>`,
+      to: `${data.name} <${data.email}>`,
       subject: "Cadastro de usuário",
-      html: `Olá ${name}, bem-vindo ao servidor :D`,
+      html: `Olá ${data.name}, bem-vindo ao servidor :D`,
     });
+
+    console.log(`Email enviado para ${data.name}`);
   },
 };

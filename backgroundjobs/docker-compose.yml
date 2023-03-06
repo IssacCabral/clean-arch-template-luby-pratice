@@ -1,29 +1,13 @@
 version: "3.9"
 
 services:
-  api:
-    build: .
-    ports:
-      - 3000:3000
-    volumes:
-      - .:/app
+  redis:
+    image: redis:alpine
+    restart: unless-stopped
     networks:
       - redis_jobs
-    depends_on:
-      - redis
-
-  redis:
-    image: redis:6.2-alpine
-    restart: always
     ports:
       - "6379:6379"
-    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
-    volumes:
-      - cache:/data
-
-volumes:
-  cache:
-    driver: local
 
 networks:
   redis_jobs:

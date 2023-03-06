@@ -1,3 +1,7 @@
+import env from "dotenv";
+
+env.config();
+
 import express from "express";
 import { UsersController } from "./app/controllers/usersController";
 
