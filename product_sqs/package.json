@@ -1,0 +1,25 @@
+{
+  "name": "product_sqs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/aws-lambda": "^8.10.111",
+    "@types/aws-sdk": "^2.7.0",
+    "aws-lambda": "^1.0.7",
+    "aws-sdk": "^2.1328.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.0",
+    "inversify": "^6.0.1",
+    "reflect-metadata": "^0.1.13",
+    "serverless-offline": "^12.0.4",
+    "serverless-webpack": "^5.11.0",
+    "typescript": "^4.9.5"
+  }
+}
