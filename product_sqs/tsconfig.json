@@ -22,7 +22,8 @@
       "@tests/*": ["tests/*"],
       "@utility/*": ["src/utility/*"],
       "@root/*": ["./*"]
-    }
+    },
+    "resolveJsonModule": true
   },
   "include": ["src/**/*.ts", "tests/**/*.ts"],
   "exclude": [

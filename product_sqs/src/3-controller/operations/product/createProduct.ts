@@ -1,9 +1,10 @@
 import { IOutputCreateProductDto } from "@business/dto/product/create";
 import { CreateProductUseCase } from "@business/useCases/product/createProductUseCase";
 import { InputCreateProduct } from "@controller/serializers/product/inputCreateProduct";
-import { inject } from "inversify";
+import { inject, injectable } from "inversify";
 import { AbstractOperator } from "../abstractOperator";
 
+@injectable()
 export class CreateProductOperator extends AbstractOperator<
   InputCreateProduct,
   IOutputCreateProductDto

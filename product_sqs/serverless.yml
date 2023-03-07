@@ -20,6 +20,9 @@ custom:
     httpPort: 3333
   webpack:
     webpackConfig: "webpack.config.js"
+    includeModules: true
+    forceExclude:
+      - aws-sdk
 
 resources:
   - ${file(./devops/resources/dynamo.yml)}

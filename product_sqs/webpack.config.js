@@ -1,9 +1,17 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const path = require("path");
 const slsw = require("serverless-webpack");
 const nodeExternals = require("webpack-node-externals");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
-module.exports = {
+/*
+This line is only required if you are specifying `TS_NODE_PROJECT` for whatever reason.
+ */
+// delete process.env.TS_NODE_PROJECT;
+
+/** @type {import ('@types/webpack').Configuration} */
+const config = {
   context: __dirname,
   mode: slsw.lib.webpack.isLocal ? "development" : "production",
   entry: slsw.lib.entries,
@@ -28,7 +36,7 @@ module.exports = {
   optimization: {
     concatenateModules: false,
   },
-  target: "node",
+  target: "node14.17",
   externals: [nodeExternals()],
   module: {
     rules: [
@@ -51,11 +59,25 @@ module.exports = {
     ],
   },
   plugins: [
-    // new ForkTsCheckerWebpackPlugin({
-    //   eslint: true,
-    //   eslintOptions: {
-    //     cache: true,
-    //   },
-    // }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, "src", "4-framework", "services"),
+          to: path.resolve(
+            __dirname,
+            ".webpack",
+            "service",
+            "src",
+            "4-framework",
+            "services"
+          ),
+        },
+      ],
+    }),
   ],
+  stats: {
+    warningsFilter: /export .* was not found in/,
+  },
 };
+
+module.exports = config;
