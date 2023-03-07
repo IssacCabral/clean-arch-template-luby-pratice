@@ -6,7 +6,7 @@ useDotenv: true
 
 provider:
   name: aws
-  runtime: nodejs18.x
+  runtime: nodejs14.x
   region: us-east-1
   iam:
     role:
@@ -23,10 +23,13 @@ custom:
 
 resources:
   - ${file(./devops/resources/dynamo.yml)}
+  - ${file(./devops/resources/sqs.yml)}
 
 plugins:
-  - serverless-webpack
   - serverless-offline
+  - serverless-webpack
 
 functions:
   - ${file(${self:custom.functionsDir}/product/products.yml)}
+  - ${file(${self:custom.functionsDir}/purchaseOrder/purchaseOrder.yml)}
+  - ${file(${self:custom.functionsDir}/processEvent/processEvent.yml)}

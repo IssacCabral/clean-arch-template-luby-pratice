@@ -1,0 +1,8 @@
+processEvent:
+  handler: ${self:custom.functionsDir}/processEvent/create.handler
+  events:
+    - sqs:
+        arn:
+          Fn::GetAtt:
+            - PurchaseEvent
+            - Arn

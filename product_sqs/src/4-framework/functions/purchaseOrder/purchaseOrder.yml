@@ -1,0 +1,7 @@
+purchaseOrder:
+  handler: ${self:custom.functionsDir}/purchaseOrder/create.handler
+  events:
+    - http:
+        path: /purchase-order
+        method: post
+        cors: true

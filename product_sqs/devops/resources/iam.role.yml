@@ -4,3 +4,11 @@
     - dynamodb:PutItem
     - dynamodb:UpdateItem
   Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/ProductsTable"
+- Effect: Allow
+  Action:
+    - sqs:SendMessage
+    - sqs:ReceiveMessage
+    - sqs:DeleteMessage
+    - sqs:GetQueueAttributes
+    - sqs:ReceiveMessage
+  Resource: "arn:aws:sqs:us-east-1:*:*"

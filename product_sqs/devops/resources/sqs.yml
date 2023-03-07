@@ -1,0 +1,5 @@
+Resources:
+  PurchaseEvent:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: "purchase-event"
