@@ -1,8 +1,0 @@
-hello:
-  handler: ${self:custom.functionsDir}/hello/handler.handler
-  events:
-    - http:
-        path: /
-        method: get
-        cors: true 
-    
