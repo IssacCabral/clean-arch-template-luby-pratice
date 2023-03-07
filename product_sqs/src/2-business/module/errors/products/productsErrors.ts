@@ -39,4 +39,17 @@ export class ProductsErrors extends IError {
 
     return productError;
   }
+
+  static productAlreadyExists(): IError {
+    const productError = new ProductsErrors({
+      statusCode: 400,
+      body: {
+        code: "RE-005",
+        message: "product already exists",
+        shortMessage: "productAlreadyExists",
+      },
+    });
+
+    return productError;
+  }
 }

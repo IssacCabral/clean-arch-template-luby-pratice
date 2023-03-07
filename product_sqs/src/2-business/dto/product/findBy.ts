@@ -1,7 +1,7 @@
 import { IProductEntity } from "@domain/entities/productEntity";
 import { Either } from "@shared/either";
 
-export type ProductEntityKeys = keyof Pick<IProductEntity, "id">;
+export type ProductEntityKeys = keyof Pick<IProductEntity, "id" | "name">;
 
 export interface IInputFindProductBy {
   column: ProductEntityKeys;
