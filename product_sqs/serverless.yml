@@ -10,23 +10,16 @@ provider:
   region: us-east-1
   iam:
     role:
-      statements:
-        - ${file(./devops/resources/iam.role.yml)}
+      statements: ${file(./devops/resources/iam.role.yml)}
 
 custom:
   dbReadCapacityUnits: 1
   dbWriteCapacityUnits: 1
-  rolesTable: Roles
-  usersTable: Users
   functionsDir: src/4-framework/functions
   serverless-offline:
     httpPort: 3333
   webpack:
     webpackConfig: "webpack.config.js"
-    includeModules:
-      forceInclude:
-        # force include of your db drivers here
-        - mysql2
 
 resources:
   - ${file(./devops/resources/dynamo.yml)}
@@ -36,4 +29,4 @@ plugins:
   - serverless-offline
 
 functions:
-  - ${file(${self:custom.functionsDir}/roles/roles.yml)}
+  - ${file(${self:custom.functionsDir}/product/products.yml)}

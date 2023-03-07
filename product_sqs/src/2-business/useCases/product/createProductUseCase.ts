@@ -23,14 +23,14 @@ export class CreateProductUseCase
 
   async exec(props: IInputCreateProductDto): Promise<IOutputCreateProductDto> {
     try {
-      const productAlreadyExists = await this.productRepository.findBy(
-        "name",
-        props.name
-      );
+      // const productAlreadyExists = await this.productRepository.findBy(
+      //   "name",
+      //   props.name
+      // );
 
-      if (productAlreadyExists) {
-        return left(ProductsErrors.productAlreadyExists());
-      }
+      // if (productAlreadyExists) {
+      //   return left(ProductsErrors.productAlreadyExists());
+      // }
 
       const productEntity = ProductEntity.create(props);
 
@@ -40,6 +40,7 @@ export class CreateProductUseCase
 
       return right(productResult);
     } catch (error) {
+      console.error(error);
       return left(ProductsErrors.productFailedToCreate());
     }
   }

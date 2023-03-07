@@ -1,0 +1,7 @@
+createProduct:
+  handler: ${self:custom.functionsDir}/product/create.handler
+  events:
+    - http:
+        path: /products
+        method: post
+        cors: true

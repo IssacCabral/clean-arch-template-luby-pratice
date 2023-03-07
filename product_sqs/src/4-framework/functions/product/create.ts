@@ -1,3 +1,4 @@
+import "../../ioc/inversify.config";
 import { CreateProductOperator } from "@controller/operations/product/createProduct";
 import { InputCreateProduct } from "@controller/serializers/product/inputCreateProduct";
 import { httpResponse } from "@framework/utility/httpResponse";
@@ -18,6 +19,8 @@ const createProduct = async (event: APIGatewayEvent) => {
     if (productResult.isLeft()) {
       throw productResult.value;
     }
+
+    return httpResponse("created", productResult);
   } catch (error) {
     console.error(error);
 
