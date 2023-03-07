@@ -9,9 +9,10 @@ import {
 } from "@business/repositories/product/iProductRepository";
 import { ProductEntity } from "@domain/entities/productEntity";
 import { left, right } from "@shared/either";
-import { inject } from "inversify";
+import { inject, injectable } from "inversify";
 import { IAbstractUseCase } from "../abstractUseCase";
 
+@injectable()
 export class CreateProductUseCase
   implements IAbstractUseCase<IInputCreateProductDto, IOutputCreateProductDto>
 {
